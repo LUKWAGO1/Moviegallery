@@ -1,0 +1,27 @@
+{
+    "name": "moviegallery",
+    "version": "1.0.0",
+    "main": "main.js",
+    "scripts": {
+      "start": "vite",
+      "dev": "vite",
+      "build": "vite build",
+      "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/LUKWAGO1/Moviegallery.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+      "url": "https://github.com/LUKWAGO1/Moviegallery/issues"
+    },
+    "homepage": "https://github.com/LUKWAGO1/Moviegallery#readme",
+    "description": "",
+    "devDependencies": {
+      "vite": "^4.0.0"
+    }
+  }
+  
