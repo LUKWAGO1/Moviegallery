@@ -38,6 +38,30 @@ function setupSearch() {
   });
 }
 
+// Function to handle input event for search bar
+function setupSearchInputEvent() {
+  const searchInput = document.querySelector('#search-input');
+  searchInput.addEventListener('input', (e) => {
+    const query = e.target.value.trim();
+    if (query.length > 0) {
+      searchInput.style.borderColor = '#3498db';
+    } else {
+      searchInput.style.borderColor = '#ddd';
+    }
+  });
+}
+
+// Function to handle keypress event for Enter key in search bar
+function setupSearchKeypressEvent() {
+  const searchInput = document.querySelector('#search-input');
+  searchInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+      const searchButton = document.querySelector('#search-button');
+      searchButton.click(); // Trigger the search button click event
+    }
+  });
+}
+
 // Function to search movies using TMDb API
 async function searchMovies(query) {
   try {
@@ -93,6 +117,9 @@ function displayMovies(movies, containerSelector) {
       loadMovieDetails(movieId);
     });
   });
+
+  setupCardHoverEffect();
+  setupCardDoubleClickEvent();
 }
 
 // Function to create HTML for a movie card
@@ -190,6 +217,27 @@ function loadWatchlistContent() {
   displayMovies(watchlist, '#watchlist-content');
 }
 
+// Function to handle click event for clearing the watchlist
+function setupClearWatchlistEvent() {
+  const watchlistContent = document.querySelector('#watchlist-content');
+  const clearButton = document.createElement('button');
+  clearButton.textContent = 'Clear Watchlist';
+  clearButton.style.marginTop = '20px';
+  clearButton.style.backgroundColor = '#e74c3c';
+  clearButton.style.color = '#fff';
+  clearButton.style.border = 'none';
+  clearButton.style.padding = '10px 20px';
+  clearButton.style.borderRadius = '5px';
+  clearButton.style.cursor = 'pointer';
+  clearButton.addEventListener('click', () => {
+    if (confirm('Are you sure you want to clear your watchlist?')) {
+      saveWatchlist([]);
+      loadWatchlistContent();
+    }
+  });
+  watchlistContent.parentElement.appendChild(clearButton);
+}
+
 // Function to load personalized suggestions based on user preferences
 async function loadPersonalizedSuggestions() {
   const preferences = getPreferences();
@@ -240,6 +288,30 @@ function shareRecommendation(movie) {
   });
 }
 
+// Function to handle hover effect on movie cards
+function setupCardHoverEffect() {
+  const movieCards = document.querySelectorAll('.movie-card');
+  movieCards.forEach(card => {
+    card.addEventListener('mouseenter', () => {
+      card.style.transform = 'scale(1.05)';
+      card.style.transition = 'transform 0.3s ease';
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = 'scale(1)';
+    });
+  });
+}
+
+// Function to handle double-click event for movie cards
+function setupCardDoubleClickEvent() {
+  const movieCards = document.querySelectorAll('.movie-card');
+  movieCards.forEach(card => {
+    card.addEventListener('dblclick', () => {
+      alert(`You double-clicked on "${card.querySelector('h3').textContent}"`);
+    });
+  });
+}
+
 // Initialize the app
 function initializeApp() {
   document.querySelector('#app').innerHTML = `
@@ -269,9 +341,14 @@ function initializeApp() {
 
   setupPreferences();
   setupSearch();
+  setupSearchInputEvent();
+  setupSearchKeypressEvent();
   loadPersonalizedSuggestions();
   loadTrendingContent();
   loadWatchlistContent();
+  setupClearWatchlistEvent();
+  setupCardHoverEffect();
+  setupCardDoubleClickEvent();
 }
 
 initializeApp();
